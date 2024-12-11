@@ -5,6 +5,9 @@
 !.gitignore
 
 #Include specific folders
-!nvim/*
-!kitty/*
-!fish/*
+!nvim/
+!nvim/**
+!kitty/
+!kitty/**
+!fish/
+!fish/**
