@@ -3,6 +3,7 @@
 
 # Allow tracked files
 !.gitignore
+!starship.toml
 
 #Include specific folders
 !nvim/

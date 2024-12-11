@@ -3,3 +3,4 @@ if status is-interactive
 end
 
 set -Ux EDITOR nvim
+starship init fish | source
