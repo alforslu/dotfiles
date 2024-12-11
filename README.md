@@ -1,3 +1,3 @@
 # My dotfiles!
-Requirements: kitty, fish, neovim, Jetbrains Mono Nerdfont, zoxide
+Requirements: kitty, fish, neovim, Jetbrains Mono Nerdfont, zoxide, starship
 
