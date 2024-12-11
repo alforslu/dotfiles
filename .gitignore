@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# Allow tracked files
+!.gitignore
+
+#Include specific folders
+!nvim/*
+!kitty/*
+!fish/*
