@@ -6,8 +6,6 @@
 !starship.toml
 
 #Include specific folders
-!nvim/
-!nvim/**
 !kitty/
 !kitty/**
 !fish/
