@@ -1,0 +1,2 @@
+UI: Noto Sans 11pt
+Terminal: Jetbrains Mono NerdFont
