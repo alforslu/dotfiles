@@ -16,6 +16,7 @@ pacman -S --noconfirm \
   noto-fonts \
   ttf-jetbrains-mono-nerd \
   ttf-jetbrains-mono \
+  starship \
   zoxide
 
 echo "Installation complete."
