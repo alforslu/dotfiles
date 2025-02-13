@@ -15,6 +15,7 @@ pacman -S --noconfirm \
   noto-fonts-cjk \
   noto-fonts \
   ttf-jetbrains-mono-nerd \
-  ttf-jetbrains-mono
+  ttf-jetbrains-mono \
+  zoxide
 
 echo "Installation complete."
