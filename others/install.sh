@@ -8,7 +8,8 @@ cp "$(dirname "$0")/pacman.conf" /etc/pacman.conf
 # Update package database
 pacman -Syu --noconfirm
 
-# Install deps pacman -S --noconfirm \
+# Install deps 
+pacman -S --noconfirm \
   ttf-noto-nerd \
   noto-fonts-emoji \
   noto-fonts-cjk \
