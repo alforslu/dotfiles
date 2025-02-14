@@ -3,5 +3,6 @@ if status is-interactive
 end
 
 set -Ux EDITOR nvim
+keychain --quiet --eval ~/.ssh/id_ed25519 | source
 starship init fish | source
 zoxide init fish --cmd cd | source
