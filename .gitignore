@@ -12,3 +12,5 @@
 !fish/**
 !others
 !others/**
+
+fish/fish_variables
