@@ -5,6 +5,8 @@
 !.gitignore
 !starship.toml
 
+fish/fish_variables
+
 #Include specific folders
 !kitty/
 !kitty/**
@@ -13,4 +15,3 @@
 !others
 !others/**
 
-fish/fish_variables
