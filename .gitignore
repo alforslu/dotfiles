@@ -5,10 +5,6 @@
 !.gitignore
 !starship.toml
 
-fish/fish_variables
-hypr/monitors.conf
-hypr/workspaces.conf
-
 #Include specific folders
 !kitty/
 !kitty/**
@@ -19,3 +15,7 @@ hypr/workspaces.conf
 !others
 !others/**
 
+# Ignore specific files
+fish/fish_variables
+hypr/monitors.conf
+hypr/workspaces.conf
