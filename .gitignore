@@ -12,8 +12,10 @@
 !fish/**
 !hypr/
 !hypr/**
-!others
+!others/
 !others/**
+!backgrounds/
+!backgrounds/**
 
 # Ignore specific files
 fish/fish_variables
