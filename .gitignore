@@ -12,6 +12,8 @@
 !fish/**
 !hypr/
 !hypr/**
+!waybar/
+!waybar/**
 !others/
 !others/**
 !backgrounds/
