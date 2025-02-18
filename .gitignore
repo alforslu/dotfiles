@@ -12,6 +12,8 @@ fish/fish_variables
 !kitty/**
 !fish/
 !fish/**
+!hypr/
+!hypr/**
 !others
 !others/**
 
