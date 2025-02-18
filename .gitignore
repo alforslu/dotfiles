@@ -14,6 +14,8 @@
 !hypr/**
 !waybar/
 !waybar/**
+!wofi/
+!wofi/**
 !others/
 !others/**
 !backgrounds/
