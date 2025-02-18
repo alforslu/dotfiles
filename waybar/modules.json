@@ -53,17 +53,26 @@
     },
     "cpu": {
         "format": "  {usage}%",
-        "tooltip": true
+        "tooltip": true,
     },
     "memory": {
-        "format": "  {used:.1f}GB/{total:.1f}GB"
+        "format": "  {}%",
+        "tooltip-format": "Used: {used:0.1f}G/{total:0.1f}G. Swap: {swapUsed:0.1f}G/{swapTotal:0.1f}G"
     },
     "temperature": {
-        "interval": 10,
-        "hwmon-path": "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input",
-        "critical-threshold": 100,
-        "format-critical": " {temperatureC}",
-        "format": " {temperatureC}°C"
+        "interval": 3,
+        "hwmon-path": "/sys/class/hwmon/hwmon7/temp1_input",
+        "critical-threshold": 90,
+        "format-critical": "{icon} {temperatureC}°C",
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": ["", "", ""]
+    },
+    "custom/weather": {
+        "interval": 600,
+        "exec": "~/.config/waybar/wittr.sh Stockholm",
+        "return-type": "json",
+        "format": "{}",
+        "tooltip": true
     },
     "hyprland/language": {
        "format": "  {}",

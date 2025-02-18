@@ -18,8 +18,9 @@
         // "idle_inhibitor", // What this?
         "pulseaudio",
         "cpu",
-        "memory",
         "temperature",
+        "memory",
+        "custom/weather",
         "clock"
     ],
     //Modules configuration
