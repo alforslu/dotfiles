@@ -4,7 +4,7 @@
 
 fish_color_normal ffffff
 fish_color_command 5ef1ff
-fish_color_param ffaecf
+fish_color_param ff5ef1
 fish_color_keyword 5eff6c
 fish_color_quote f1ff5e
 fish_color_redirection 5ea1ff
