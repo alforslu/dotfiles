@@ -18,6 +18,10 @@ pacman -S --noconfirm \
   ttf-jetbrains-mono \
   starship \
   zoxide \
-  keychain
+  keychain \
+  reflector
+
+# Enable weekly reflector timer
+systemctl enable --now reflector.timer
 
 echo "Installation complete."
