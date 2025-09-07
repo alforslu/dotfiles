@@ -1,0 +1,12 @@
+The following plugins are used with hyprland:
+hypridle
+hyprlock
+hyprpaper
+swayosd
+swaync
+waybar
+wofi
+thunar
+wleave (NOT wlogout)
+wl-clipboard
+hyprshot

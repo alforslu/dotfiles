@@ -25,10 +25,10 @@
         }
     },
     "pulseaudio": {
-        "format": "{icon}  {volume}%",
+        "format": "{icon}   {volume}%",
         "format-bluetooth": "{icon} {volume}%  {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " {format_source}",
+        "format-muted": "󰝟",
         "format-source": " {volume}%",
         "format-source-muted": "",
         "format-icons": {
@@ -68,10 +68,10 @@
         "critical-threshold": 90,
         "format-critical": "{icon} {temperatureC}°C",
         "format": "{icon} {temperatureC}°C",
-        "format-icons": ["", "", ""]
+        "format-icons": [""]
     },
     "custom/weather": {
-        "interval": 600,
+        "interval": 300,
         "exec": "~/.config/waybar/wittr.sh Stockholm",
         "return-type": "json",
         "format": "{}",

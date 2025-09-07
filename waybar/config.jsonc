@@ -1,6 +1,6 @@
 // -*- mode: jsonc -*-
 {
-    "output": "DP-1", // Only primary monitor
+    "output": "DP-2", // Only primary monitor
     "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
     "height": 44, // Waybar height (to be removed for auto height)
