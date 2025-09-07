@@ -1,4 +1,23 @@
+# ~/.config/starship.toml
+
 add_newline = false
+format = """
+$all$line_break\
+$username$hostname $character
+"""
+
+[username]
+show_always = true
+format = "[$user](bold cyan)"
+
+[hostname]
+ssh_only = false
+format = "@[$hostname](bold cyan)"
+ssh_symbol = " "
+
+[character]
+success_symbol = "[󰜴](bold green)"
+error_symbol   = "[✗](bold red)"
 
 [aws]
 symbol = "  "
@@ -57,8 +76,6 @@ symbol = " "
 [hg_branch]
 symbol = " "
 
-[hostname]
-ssh_symbol = " "
 
 [java]
 symbol = " "
