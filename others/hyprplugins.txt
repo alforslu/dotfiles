@@ -10,3 +10,4 @@ thunar
 wleave (NOT wlogout)
 wl-clipboard
 hyprshot
+hyprsunset
