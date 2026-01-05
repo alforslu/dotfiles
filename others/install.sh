@@ -12,7 +12,9 @@ cp "$SCRIPT_DIR/configs/pacman.conf" /etc/pacman.conf
 pacman -Syu --noconfirm
 
 # Install deps and software I always want
-pacman -S --noconfirm \
+pacman -S --needed --noconfirm \
+  base-devel \
+  git \
   ttf-noto-nerd \
   noto-fonts-emoji \
   noto-fonts-cjk \
@@ -37,5 +39,12 @@ systemctl daemon-reload
 systemctl enable --now reflector.timer
 systemctl enable --now pacman-cache-wipe.timer
 systemctl enable --now --user yay-cache-wipe.timer
+
+# Install the AUR
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+cd ..
+rm -rf yay
 
 echo "Installation complete."
