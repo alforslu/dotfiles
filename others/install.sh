@@ -3,12 +3,12 @@ set -e
 
 # Replace pacman config (backup existing config)
 [ -f /etc/pacman.conf ] && cp /etc/pacman.conf /etc/pacman.conf.bak
-cp "$(dirname "$0")/pacman.conf" /etc/pacman.conf
+cp "$(dirname "$0")/configs/pacman.conf" /etc/pacman.conf
 
 # Update package database
 pacman -Syu --noconfirm
 
-# Install deps 
+# Install deps and software I always want
 pacman -S --noconfirm \
   ttf-noto-nerd \
   noto-fonts-emoji \
@@ -19,7 +19,8 @@ pacman -S --noconfirm \
   starship \
   zoxide \
   keychain \
-  reflector
+  reflector \
+  btop
 
 # Enable weekly reflector timer
 systemctl enable --now reflector.timer
