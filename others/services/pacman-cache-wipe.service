@@ -1,0 +1,7 @@
+[Unit]
+Description=Clean pacman package cache
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/paccache -rk0
+ExecStart=/usr/bin/paccache -ruk0
