@@ -6,6 +6,8 @@
 !starship.toml
 
 #Include specific folders
+!quickshell/
+!quickshell/**
 !kitty/
 !kitty/**
 !fish/

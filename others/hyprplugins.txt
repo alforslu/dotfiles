@@ -4,10 +4,12 @@ hyprlock
 hyprpaper
 swayosd
 swaync
-waybar
 wofi
 thunar
 wleave (NOT wlogout)
 wl-clipboard
 hyprshot
 hyprsunset
+
+Not a plugin:
+quickshell
