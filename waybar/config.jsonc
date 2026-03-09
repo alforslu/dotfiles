@@ -1,9 +1,9 @@
 // -*- mode: jsonc -*-
 {
-    "output": "DP-2", // Only primary monitor
+    // "output": "DP-2", // Only primary monitor
     "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
-    "height": 44, // Waybar height (to be removed for auto height)
+    "height": 36, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
@@ -18,9 +18,8 @@
     "modules-right": [
         // "idle_inhibitor", // What this?
         "pulseaudio",
+        "battery",
         "cpu",
-        "temperature",
-        "memory",
         "custom/weather",
         "clock"
     ],
