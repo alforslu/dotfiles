@@ -90,8 +90,8 @@
         "format-full": "{icon}  {capacity}%",
         "format-charging": "  {capacity}%",
         "format-plugged": "  {capacity}%",
-        "format-alt": "{time}  {icon}",
-        "format-icons": ["", "", "", "", ""]
+        "format-icons": ["", "", "", "", ""],
+        "on-click": "~/.config/waybar/power-profile.sh"
     },
     "battery#bat2": {
         "bat": "BAT2"
