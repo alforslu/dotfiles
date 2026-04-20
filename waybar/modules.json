@@ -75,7 +75,8 @@
         "exec": "~/.config/waybar/wittr.sh Stockholm",
         "return-type": "json",
         "format": "{}",
-        "tooltip": true
+        "tooltip": true,
+        "on-click": "~/.config/waybar/wittr.sh Stockholm"
     },
     "hyprland/language": {
        "format": "  {}",
