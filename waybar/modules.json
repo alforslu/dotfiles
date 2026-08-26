@@ -92,7 +92,13 @@
         "format-charging": "  {capacity}%",
         "format-plugged": "  {capacity}%",
         "format-icons": ["", "", "", "", ""],
-        "on-click": "~/.config/waybar/power-profile.sh"
+    },
+    "custom/powerprofile": {
+        "exec": "~/.config/waybar/power-profile-label.sh",
+        "interval": 5,
+        "format": "({})",
+        "on-click": "~/.config/waybar/power-profile.sh",
+        "tooltip": false
     },
     "battery#bat2": {
         "bat": "BAT2"

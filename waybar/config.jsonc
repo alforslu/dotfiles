@@ -19,6 +19,7 @@
         // "idle_inhibitor", // What this?
         "pulseaudio",
         "battery",
+        "custom/powerprofile",
         "cpu",
         "custom/weather",
         "clock"
