@@ -26,7 +26,10 @@ pacman -S --needed --noconfirm \
   keychain \
   reflector \
   btop \
-  direnv
+  direnv \
+  neovim \
+  bluetui \
+  lazygit
 
 install -d -m 755 /etc/systemd/system
 install -m 644 "$SCRIPT_DIR"/services/*.service /etc/systemd/system/ 2>/dev/null || true
