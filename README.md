@@ -1,3 +1,3 @@
-# My dotfiles!
-Requirements: kitty, fish, neovim, Jetbrains Mono Nerdfont, zoxide, starship, keychain
+# Usage
+clone wherever, enable using `stow backgrounds fish kitty`
 

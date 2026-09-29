@@ -1,4 +1,5 @@
 The following plugins are used with hyprland:
+SUBJECT TO CHANGE
 hypridle
 hyprlock
 hyprpaper
