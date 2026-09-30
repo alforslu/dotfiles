@@ -1,29 +1,17 @@
-# Ignore everything
-*
+# Fish session state and saved universal variables
+fish/.config/fish/fish_variables
+fish/.local/share/fish/fish_history
 
-# Allow tracked files
-!.gitignore
-!starship.toml
+# Editor swap files and backups
+*.swp
+*.swo
+*~
+*.bak
 
-#Include specific folders
-!kitty/
-!kitty/**
-!fish/
-!fish/**
-!hypr/
-!hypr/**
-!waybar/
-!waybar/**
-!wlogout/
-!wlogout/**
-!wofi/
-!wofi/**
-!others/
-!others/**
-!backgrounds/
-!backgrounds/**
+# Env
+.env
+.env.local
 
-# Ignore specific files
-fish/fish_variables
-hypr/monitors.conf
-hypr/workspaces.conf
+# Machine-specific
+hypr/.config/hypr/monitors.lua
+hypr/.config/hypr/workspaces.lua
