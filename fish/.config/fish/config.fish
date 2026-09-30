@@ -5,6 +5,7 @@ keychain --quiet --immediate --eval ~/.ssh/id_ed25519 | source
 starship init fish | source
 zoxide init fish --cmd cd | source
 direnv hook fish | source
+fish_config theme choose cyberdream
 end
 
 

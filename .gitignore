@@ -1,2 +1,17 @@
-fish/completions/
-fish/conf.d/
+# Fish session state and saved universal variables
+fish/.config/fish/fish_variables
+fish/.local/share/fish/fish_history
+
+# Editor swap files and backups
+*.swp
+*.swo
+*~
+*.bak
+
+# Env
+.env
+.env.local
+
+# Machine-specific
+hypr/.config/hypr/monitors.lua
+hypr/.config/hypr/workspaces.lua
