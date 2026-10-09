@@ -6,7 +6,7 @@ import QtQuick
 
 Singleton {
     readonly property font defaultFont: Qt.font({
-        family: "Noto Sans",
+        family: "NotoSans Nerd Font",
         pointSize: 12,
         bold: true
     })
@@ -25,9 +25,13 @@ Singleton {
     readonly property color pressedColor: "#89b4fa"
 
     readonly property real barHeight: 36
+    readonly property real barElementMargin: 16
+
     readonly property real sectionHorizontalPadding: 12
     readonly property real sectionVerticalPadding: 2
-    readonly property real itemSpacing: 4
+    readonly property real itemSpacing: 0
     readonly property real defaultRadius: 12
     readonly property real defaultBackgroundHeight: 24
+
+    readonly property real tooltipPadding: 8
 }

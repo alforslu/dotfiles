@@ -36,12 +36,14 @@ Scope {
                 visible: bar.isMainMonitor
                 anchors.centerIn: parent
             }
-            //
-            // SystemStatus {
-            //     anchors.right: parent.right
-            //     anchors.rightMargin: 12
-            //     anchors.verticalCenter: parent.verticalCenter
-            // }
+
+            SystemStatus {
+                visible: bar.isMainMonitor
+
+                anchors.right: clock.left
+                anchors.rightMargin: 12
+                anchors.verticalCenter: parent.verticalCenter
+            }
 
             SystemTime {
                 id: clock
