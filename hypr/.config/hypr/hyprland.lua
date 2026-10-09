@@ -32,7 +32,7 @@ require("config.keybinds")({
 --################
 
 hl.on("hyprland.start", function()
-    hl.exec_cmd("waybar & swaync & hypridle & hyprpaper & swayosd-server")
+    hl.exec_cmd("qs & swaync & hypridle & hyprpaper & swayosd-server")
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
     hl.exec_cmd("hyperctl dispatch workspace 1")
