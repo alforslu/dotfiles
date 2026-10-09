@@ -36,10 +36,7 @@ Rectangle {
 
                 background: Rectangle {
                     radius: height / 2
-                    color: workspaceButton.down ? Theme.pressedColor
-                         : workspaceButton.highlighted ? Theme.selectedColor
-                         : workspaceButton.hovered ? Theme.hoverColor
-                         : Theme.backgroundColor
+                    color: workspaceButton.down ? Theme.pressedColor : workspaceButton.highlighted ? Theme.selectedColor : workspaceButton.hovered ? Theme.hoverColor : Theme.backgroundColor
 
                     border.width: workspaceButton.visualFocus ? 1 : 0
                     border.color: Theme.textColor
@@ -49,13 +46,15 @@ Rectangle {
                     text: workspaceButton.text
                     font: workspaceButton.font
 
-                    color: workspaceButton.highlighted || workspaceButton.down
-                         ? Theme.selectedTextColor : Theme.textColor
+                    color: workspaceButton.highlighted || workspaceButton.down ? Theme.selectedTextColor : Theme.textColor
 
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
             }
         }
+
+        Tray {}
+
     }
 }
