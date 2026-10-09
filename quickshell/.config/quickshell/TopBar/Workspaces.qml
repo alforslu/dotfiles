@@ -6,7 +6,8 @@ import ".."
 Rectangle {
     color: Theme.backgroundColor
 
-    implicitWidth: workspaceRow.implicitWidth + Theme.sectionHorizontalPadding * 2
+    // Note -8 below, this is different from rest of UI.
+    implicitWidth: workspaceRow.implicitWidth + Theme.sectionHorizontalPadding * 2 - 8
     implicitHeight: workspaceRow.implicitHeight + Theme.sectionVerticalPadding * 2
     radius: Theme.defaultRadius
 
