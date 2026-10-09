@@ -25,7 +25,7 @@ Singleton {
     readonly property color pressedColor: "#89b4fa"
 
     readonly property real barHeight: 36
-    readonly property real sectionHorizontalPadding: 8
+    readonly property real sectionHorizontalPadding: 12
     readonly property real sectionVerticalPadding: 2
     readonly property real itemSpacing: 4
     readonly property real defaultRadius: 12
