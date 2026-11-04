@@ -33,12 +33,15 @@ Scope {
             // }
             //
             Workspaces {
+                id: workspaces
                 visible: bar.isMainMonitor
                 anchors.centerIn: parent
             }
 
             SystemStatus {
                 visible: bar.isMainMonitor
+                maximumWidth: Math.max(0, clock.x - anchors.rightMargin
+                    - workspaces.x - workspaces.width - Theme.barElementMargin)
 
                 anchors.right: clock.left
                 anchors.rightMargin: 12

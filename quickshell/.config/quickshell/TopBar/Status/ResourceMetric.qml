@@ -7,20 +7,33 @@ Rectangle {
 
     required property string text
     required property string tooltip
+    property real horizontalPadding: Theme.sectionHorizontalPadding / 2
     property bool tooltipsEnabled: true
+    signal focusEntered()
 
     color: hover.hovered || activeFocus ? Theme.hoverColor : "transparent"
     radius: height / 2
-    implicitWidth: label.implicitWidth + Theme.sectionHorizontalPadding
-    implicitHeight: label.implicitHeight
+    implicitWidth: label.implicitWidth + horizontalPadding * 2
+    implicitHeight: Math.ceil(fontMetrics.height)
     activeFocusOnTab: enabled
     Accessible.role: Accessible.StaticText
     Accessible.name: text
     Accessible.description: tooltip
+    onActiveFocusChanged: {
+        if (activeFocus)
+            focusEntered();
+    }
+
+    // Fallback glyphs must not change the row height or text baseline.
+    FontMetrics {
+        id: fontMetrics
+        font: Theme.defaultFont
+    }
 
     Text {
         id: label
-        anchors.centerIn: parent
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: fontMetrics.ascent - baselineOffset
         text: root.text
         font: Theme.defaultFont
         color: Theme.textColor

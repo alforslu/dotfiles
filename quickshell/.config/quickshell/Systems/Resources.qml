@@ -13,6 +13,43 @@ Singleton {
     property var memory: null
     property var topology: ({})
     property string temperatureText: ""
+    property var network: null
+    property var lanInterfaces: []
+    readonly property var lan: lanInterfaces.find(entry => entry.interfaceName === network?.interfaceName)
+        ?? lanInterfaces[0] ?? null
+    property var previousNetwork: null
+    property var pendingRoute: null
+    property bool networkPolling: false
+    property bool probingIpv6: false
+
+    function pollNetwork() {
+        if (networkPolling || networkRoute.running)
+            return;
+        networkPolling = true;
+        probingIpv6 = false;
+        networkTimeout.restart();
+        networkRoute.running = true;
+    }
+
+    function networkUnavailable() {
+        network = null;
+        previousNetwork = null;
+        pendingRoute = null;
+        networkPolling = false;
+        networkTimeout.stop();
+    }
+
+    function pollLan() {
+        if (lanTimeout.running || lanProcess.running)
+            return;
+        lanTimeout.restart();
+        lanProcess.running = true;
+    }
+
+    Component.onCompleted: {
+        pollNetwork();
+        pollLan();
+    }
 
     readonly property var temperatures: {
         try {
@@ -54,6 +91,96 @@ Singleton {
     }
 
     Process {
+        id: lanProcess
+        command: ["ip", "-j", "-d", "-4", "address", "show", "up"]
+        stdout: StdioCollector { id: lanOutput }
+        stderr: StdioCollector {}
+        onExited: (exitCode, exitStatus) => {
+            if (!lanTimeout.running)
+                return;
+            try {
+                root.lanInterfaces = exitCode === 0 && exitStatus === 0
+                    ? Stats.lanAddresses(lanOutput.text) : [];
+            } catch (error) {
+                root.lanInterfaces = [];
+            }
+            lanTimeout.stop();
+        }
+    }
+
+    Timer {
+        id: lanTimeout
+        interval: 5000
+        onTriggered: {
+            root.lanInterfaces = [];
+            lanProcess.running = false;
+        }
+    }
+
+    Process {
+        id: networkRoute
+        command: ["ip", "-j", root.probingIpv6 ? "-6" : "-4", "route", "get",
+            root.probingIpv6 ? "2606:4700:4700::1111" : "1.1.1.1"]
+        stdout: StdioCollector { id: routeOutput }
+        stderr: StdioCollector {}
+        onExited: (exitCode, exitStatus) => {
+            if (!root.networkPolling)
+                return;
+            let route = null;
+            if (exitCode === 0 && exitStatus === 0) {
+                try {
+                    route = Stats.networkRoute(routeOutput.text);
+                } catch (error) {
+                    route = null;
+                }
+            }
+            if (route) {
+                root.pendingRoute = route;
+                networkFile.reload();
+                // Start the deferred read only after selecting an interface.
+                networkFile.text();
+            } else if (!root.probingIpv6) {
+                root.probingIpv6 = true;
+                Qt.callLater(() => {
+                    if (root.networkPolling)
+                        networkRoute.running = true;
+                });
+            } else {
+                root.networkUnavailable();
+            }
+        }
+    }
+
+    FileView {
+        id: networkFile
+        path: "/proc/net/dev"
+        preload: false
+        onLoaded: {
+            if (!root.networkPolling)
+                return;
+            const sample = Stats.networkSnapshot(text(), root.pendingRoute, Date.now());
+            if (!sample) {
+                root.networkUnavailable();
+                return;
+            }
+            root.network = Stats.networkUsage(sample, root.previousNetwork);
+            root.previousNetwork = sample;
+            root.networkPolling = false;
+            networkTimeout.stop();
+        }
+        onLoadFailed: root.networkUnavailable()
+    }
+
+    Timer {
+        id: networkTimeout
+        interval: 5000
+        onTriggered: {
+            root.networkUnavailable();
+            networkRoute.running = false;
+        }
+    }
+
+    Process {
         id: temperatureProcess
         running: true
         command: ["sensors", "-j"]
@@ -74,6 +201,8 @@ Singleton {
         running: true
         repeat: true
         onTriggered: {
+            root.pollNetwork();
+            root.pollLan();
             cpuFile.reload();
             topologyFile.reload();
             memoryFile.reload();

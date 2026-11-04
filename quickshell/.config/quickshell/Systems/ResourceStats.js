@@ -97,3 +97,94 @@ function cpuTemperatures(text, topology = {}) {
         readings: readings
     };
 }
+
+function networkRoute(text) {
+    const routes = JSON.parse(text);
+    if (!Array.isArray(routes))
+        return null;
+    const route = routes.find(route => route && typeof route.dev === "string"
+        && route.dev && route.dev !== "lo" && typeof (route.prefsrc || route.src) === "string"
+        && (route.prefsrc || route.src).trim());
+    return route ? { interfaceName: route.dev, address: route.prefsrc || route.src } : null;
+}
+
+function networkSnapshot(text, route, timestamp) {
+    if (!route || !Number.isFinite(timestamp))
+        return null;
+    for (const line of text.split("\n")) {
+        const separator = line.indexOf(":");
+        if (separator < 0 || line.slice(0, separator).trim() !== route.interfaceName)
+            continue;
+        const fields = line.slice(separator + 1).trim().split(/\s+/);
+        if (fields.length < 16 || !/^\d+$/.test(fields[0]) || !/^\d+$/.test(fields[8]))
+            return null;
+        const received = Number(fields[0]);
+        const sent = Number(fields[8]);
+        if (!Number.isFinite(received) || !Number.isFinite(sent))
+            return null;
+        return { interfaceName: route.interfaceName, address: route.address,
+            received: received, sent: sent, timestamp: timestamp };
+    }
+    return null;
+}
+
+function networkUsage(current, previous) {
+    if (!current)
+        return null;
+    const seconds = previous ? (current.timestamp - previous.timestamp) / 1000 : 0;
+    const continuous = previous && current.interfaceName === previous.interfaceName
+        && seconds > 0 && current.received >= previous.received && current.sent >= previous.sent;
+    return { interfaceName: current.interfaceName, address: current.address,
+        received: current.received, sent: current.sent,
+        seconds: continuous ? seconds : null,
+        download: continuous ? (current.received - previous.received) / seconds : null,
+        upload: continuous ? (current.sent - previous.sent) / seconds : null };
+}
+
+function formatBytes(bytes, precision = 1) {
+    if (typeof bytes !== "number" || !Number.isFinite(bytes) || bytes < 0)
+        return "N/A";
+    const units = ["B", "KiB", "MiB", "GiB"];
+    let unit = 0;
+    while (bytes >= 1024 && unit < units.length - 1) {
+        bytes /= 1024;
+        unit++;
+    }
+    return bytes.toFixed(unit === 0 ? 0 : precision) + " " + units[unit];
+}
+
+function networkTooltip(network) {
+    if (!network)
+        return "Network unavailable";
+    const rates = network.download === null ? "\nCollecting a second sample…"
+        : "\nDownload: " + formatBytes(network.download, 3) + "/s"
+            + "\nUpload: " + formatBytes(network.upload, 3) + "/s";
+    return "Interface: " + network.interfaceName + rates
+        + "\nReceived: " + formatBytes(network.received, 3)
+        + "\nSent: " + formatBytes(network.sent, 3);
+}
+
+function lanAddresses(text) {
+    const interfaces = JSON.parse(text);
+    if (!Array.isArray(interfaces))
+        return [];
+    const addresses = [];
+    const virtualAddresses = [];
+    for (const device of interfaces) {
+        const kind = device?.linkinfo?.info_kind;
+        if (!device || typeof device.ifname !== "string" || device.link_type !== "ether"
+            || !Array.isArray(device.flags) || !device.flags.includes("UP")
+            || device.operstate === "DOWN" || !Array.isArray(device.addr_info)
+            || (kind && !["vlan", "bridge", "bond", "team", "macvlan", "ipvlan"].includes(kind)))
+            continue;
+        if (["bridge", "bond", "team"].includes(kind) && !interfaces.some(member =>
+                member?.master === device.ifname && member.link_type === "ether" && !member.linkinfo?.info_kind))
+            continue;
+        for (const address of device.addr_info) {
+            if (address?.family === "inet" && address.scope === "global"
+                && typeof address.local === "string" && address.local && !address.tentative)
+                (kind ? virtualAddresses : addresses).push({ interfaceName: device.ifname, address: address.local });
+        }
+    }
+    return addresses.concat(virtualAddresses);
+}
