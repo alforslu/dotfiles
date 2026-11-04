@@ -40,7 +40,25 @@ function memoryUsage(text) {
     return { used: usedBytes / (1024 ** 3), total: totalBytes / (1024 ** 3), percent: usedBytes / totalBytes * 100 };
 }
 
-function cpuTemperatures(text) {
+function cpuTopology(text) {
+    const topology = {};
+    for (const block of text.trim().split(/\n\s*\n/)) {
+        const processor = block.match(/^processor\s*:\s*(\d+)\s*$/m);
+        const packageId = block.match(/^physical id\s*:\s*(\d+)\s*$/m);
+        const coreId = block.match(/^core id\s*:\s*(\d+)\s*$/m);
+        if (!processor || !packageId || !coreId)
+            continue;
+        const key = Number(packageId[1]) + ":" + Number(coreId[1]);
+        if (!topology[key])
+            topology[key] = [];
+        topology[key].push(Number(processor[1]));
+    }
+    for (const key of Object.keys(topology))
+        topology[key].sort((a, b) => a - b);
+    return topology;
+}
+
+function cpuTemperatures(text, topology = {}) {
     const sensors = JSON.parse(text);
     if (!sensors || typeof sensors !== "object" || Array.isArray(sensors))
         return null;
@@ -51,6 +69,8 @@ function cpuTemperatures(text) {
         const features = sensors[chip];
         if (!features || typeof features !== "object")
             continue;
+        const packageLabel = Object.keys(features).find(label => /^Package id \d+$/.test(label));
+        const packageId = packageLabel ? Number(packageLabel.match(/\d+$/)[0]) : null;
         for (const label of Object.keys(features)) {
             const feature = features[label];
             if (!feature || typeof feature !== "object")
@@ -60,7 +80,10 @@ function cpuTemperatures(text) {
                 if (!/^temp\d+_input$/.test(key) || typeof value !== "number"
                     || !Number.isFinite(value) || value <= -273.15 || value > 200)
                     continue;
-                const name = label.replace(/^Package id \d+$/, "Package");
+                const core = label.match(/^Core (\d+)$/);
+                const processors = core && packageId !== null ? topology[packageId + ":" + Number(core[1])] : null;
+                const name = processors?.length ? processors.map(id => "CPU" + id).join(" / ")
+                    : label.replace(/^Package id \d+$/, "Package");
                 readings.push({ name: chips.length > 1 ? chip + ": " + name : name, value: value });
                 if (/^(Package id|Tdie)/.test(label) || (label === "Tctl" && !features.Tdie))
                     packages.push(value);

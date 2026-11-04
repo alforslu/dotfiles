@@ -11,7 +11,16 @@ Singleton {
     property var previousCpu: ({})
     property var cpu: []
     property var memory: null
-    property var temperatures: null
+    property var topology: ({})
+    property string temperatureText: ""
+
+    readonly property var temperatures: {
+        try {
+            return Stats.cpuTemperatures(temperatureText, topology);
+        } catch (error) {
+            return null;
+        }
+    }
 
     readonly property var cpuPercent: cpu.find(sample => sample.name === "cpu")?.percent ?? null
     readonly property var cores: cpu.filter(sample => sample.name !== "cpu")
@@ -31,6 +40,13 @@ Singleton {
     }
 
     FileView {
+        id: topologyFile
+        path: "/proc/cpuinfo"
+        onLoaded: root.topology = Stats.cpuTopology(text())
+        onLoadFailed: root.topology = ({})
+    }
+
+    FileView {
         id: memoryFile
         path: "/proc/meminfo"
         onLoaded: root.memory = Stats.memoryUsage(text())
@@ -43,19 +59,13 @@ Singleton {
         command: ["sensors", "-j"]
         stdout: StdioCollector {
             id: temperatureOutput
-            onStreamFinished: {
-                try {
-                    root.temperatures = Stats.cpuTemperatures(text);
-                } catch (error) {
-                    root.temperatures = null;
-                }
-            }
+            onStreamFinished: root.temperatureText = text
         }
         // Other devices may report errors while CPU sensors still return valid data.
         stderr: StdioCollector {}
         onExited: (exitCode, exitStatus) => {
             if (exitStatus !== 0 || (exitCode !== 0 && !temperatureOutput.text.trim()))
-                root.temperatures = null;
+                root.temperatureText = "";
         }
     }
 
@@ -65,6 +75,7 @@ Singleton {
         repeat: true
         onTriggered: {
             cpuFile.reload();
+            topologyFile.reload();
             memoryFile.reload();
             if (!temperatureProcess.running)
                 temperatureProcess.running = true;
