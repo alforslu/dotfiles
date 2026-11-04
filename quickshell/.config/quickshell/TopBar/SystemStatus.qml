@@ -17,6 +17,10 @@ Rectangle {
         anchors.centerIn: parent
         spacing: Theme.itemSpacing
 
+        Resources {
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
         Volume {
             anchors.verticalCenter: parent.verticalCenter
         }
