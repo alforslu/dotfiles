@@ -16,8 +16,13 @@ local menu = "wofi --show drun"
 --## CONFIG IMPORTS ###
 --#####################
 
-require("monitors")
-require("workspaces")
+-- Only import if existing
+for _, name in ipairs({ "monitors", "workspaces" }) do
+    if package.searchpath(name, package.path) then
+        require(name)
+    end
+end
+
 require("config.style")
 require("config.keybinds")({
     terminal = terminal,
@@ -35,7 +40,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("qs & swaync & hypridle & hyprpaper & swayosd-server")
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
-    hl.exec_cmd("hyperctl dispatch workspace 1")
+    hl.exec_cmd("hyprctl dispatch workspace 1")
     -- hl.exec_cmd("hyprpm reload -nn")
 end)
 
@@ -47,8 +52,6 @@ end)
 
 hl.env("XCURSOR_SIZE", 24)
 hl.env("HYPRCURSOR_SIZE", 24)
-hl.env("LIBVA_DRIVER_NAME", "nvidia")
-hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
 
 --##############
 --## Plugins ###
@@ -69,23 +72,10 @@ hl.config({
         accel_profile = "flat",
         follow_mouse = 1,
         force_no_accel = true,
-        -- sensitivity = 0.2,
-        -- -1.0 - 1.0, 0 means no modification.
-        touchpad = {
-            natural_scroll = false,
-        },
     },
 })
 
 -- https://wiki.hyprland.org/Configuring/Variables/#gestures
-
--- Example per-device config
--- See https://wiki.hyprland.org/Configuring/Keywords/#per-device-input-configs for more
-hl.device({
-    name = "epic-mouse-v1",
-    sensitivity = -0.5,
-})
-
 
 --#############################
 --## WINDOWS AND WORKSPACES ###
@@ -112,3 +102,5 @@ hl.window_rule({
     },
     no_focus = true,
 })
+
+require("machine")

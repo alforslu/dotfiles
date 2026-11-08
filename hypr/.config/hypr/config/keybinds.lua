@@ -78,21 +78,6 @@ return function(programs)
 
     -- NOTE: Below might be broken, can't test atm
     hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("swayosd-client --input-volume mute-toggle"))
-    hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("swayosd-client --brightness raise"), { locked = true })
-    hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("swayosd-client --brightness lower"), { locked = true })
-
-    -- Backlight
-    hl.bind(
-        "XF86KbdBrightnessDown",
-        hl.dsp.exec_cmd("swayosd-client --brightness lower --device tpacpi::kbd_backlight"),
-        { locked = true }
-    )
-    hl.bind(
-        "XF86KbdBrightnessUp",
-        hl.dsp.exec_cmd("swayosd-client --brightness raise --device tpacpi::kbd_backlight"),
-        { locked = true }
-    )
-
     -- Requires playerctl
     hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
     hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
