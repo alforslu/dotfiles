@@ -4,6 +4,8 @@ import Quickshell.Hyprland
 import ".."
 
 Rectangle {
+    id: root
+    readonly property bool workspaceEntering: workspaceRow.children.some(item => item.entering === true)
     color: Theme.backgroundColor
 
     // Note -8 below, this is different from rest of UI.
@@ -11,10 +13,29 @@ Rectangle {
     implicitHeight: workspaceRow.implicitHeight + Theme.sectionVerticalPadding * 2
     radius: Theme.defaultRadius
 
+    Behavior on implicitWidth {
+        enabled: !root.workspaceEntering
+        NumberAnimation {
+            duration: 140
+            easing.type: Easing.OutCubic
+        }
+    }
+
     Row {
         id: workspaceRow
-        anchors.centerIn: parent
+        anchors.left: parent.left
+        anchors.leftMargin: Theme.sectionHorizontalPadding - 4
+        anchors.verticalCenter: parent.verticalCenter
         spacing: Theme.itemSpacing
+
+        move: Transition {
+            enabled: !root.workspaceEntering
+            NumberAnimation {
+                property: "x"
+                duration: 140
+                easing.type: Easing.OutCubic
+            }
+        }
 
         Repeater {
             model: Hyprland.workspaces
@@ -22,6 +43,16 @@ Rectangle {
             delegate: Button {
                 id: workspaceButton
                 required property HyprlandWorkspace modelData
+                readonly property bool entering: entrance.running
+                onWidthChanged: if (entering) workspaceRow.forceLayout()
+
+                NumberAnimation on width {
+                    id: entrance
+                    from: 0
+                    to: workspaceButton.implicitWidth
+                    duration: 140
+                    easing.type: Easing.OutCubic
+                }
 
                 text: modelData.name
                 font: Theme.workspaceFont
@@ -31,6 +62,7 @@ Rectangle {
                 implicitWidth: Math.max(36, contentItem.implicitWidth + leftPadding + rightPadding)
                 implicitHeight: Theme.defaultBackgroundHeight
                 padding: 4
+                clip: true
                 topInset: 2
                 bottomInset: 2
 
