@@ -20,7 +20,7 @@ Button {
         default: return "?";
         }
     }
-    readonly property string batteryIcon: charging ? ""
+    readonly property string batteryIcon: charging ? ""
         : ["", "", "", "", ""][Math.max(0, Math.min(4, Math.floor(percent / 20)))]
     readonly property string tooltip: {
         if (battery.state === UPowerDeviceState.FullyCharged)
